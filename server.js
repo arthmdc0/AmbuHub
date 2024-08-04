@@ -99,6 +99,34 @@ app.use(session({
   cookie: { secure: false } // Para HTTPS, deve ser true
 }));
 
+// Rota para processar compras
+app.post('/buy-product/:id', ensureAuthenticated, async (req, res) => {
+  const productId = req.params.id;
+  const { quantity, paymentMethod } = req.body;
+
+  try {
+    const product = await Product.findOne({ where: { id: productId } });
+    if (!product) {
+      return res.status(404).send('Produto não encontrado');
+    }
+
+    if (product.stock < quantity) {
+      return res.status(400).send('Quantidade solicitada não disponível');
+    }
+
+    // Lógica para processar a compra
+    // Atualizar o estoque, registrar a venda, etc.
+    product.stock -= quantity;
+    await product.save();
+
+    // Redirecionar para uma página de sucesso/checkout
+    res.send(`Compra realizada com sucesso! Método de pagamento: ${paymentMethod}`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Erro ao processar compra');
+  }
+});
+
 // Configuração do multer para upload de imagens
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {

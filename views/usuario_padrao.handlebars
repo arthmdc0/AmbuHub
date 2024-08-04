@@ -1,14 +1,22 @@
-<h1>Página de Usuário</h1>
+<h1>Página de Usuário Padrão</h1>
 <div class="product-list">
   {{#each products}}
   <div class="product">
-    <h2>{{this.name}}</h2>
+    <h3>{{this.name}}</h3>
     <p>{{this.description}}</p>
     <p>Preço: R$ {{this.price}}</p>
     <p>Estoque: {{this.stock}}</p>
     {{#if this.imageUrl}}
-    <img src="{{this.imageUrl}}" alt="{{this.name}}">
+    <img src="{{this.imageUrl}}" alt="{{this.name}}" width="150">
     {{/if}}
+    <form action="/buy-product/{{this.id}}" method="post" class="form">
+      <input type="number" name="quantity" min="1" max="{{this.stock}}" value="1" required>
+      <select name="paymentMethod" required>
+        <option value="creditCard">Cartão de Crédito</option>
+        <option value="pix">PIX</option>
+      </select>
+      <button type="submit">Comprar</button>
+    </form>
   </div>
   {{/each}}
 </div>

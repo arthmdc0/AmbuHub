@@ -119,3 +119,26 @@ h2 {
 button {
   cursor: pointer;
 }
+
+.form {
+  margin-top: 10px;
+}
+
+.form input[type="number"],
+.form select {
+  padding: 0.5em;
+  margin-right: 10px;
+}
+
+.form button {
+  padding: 0.5em 1em;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.form button:hover {
+  background-color: #45a049;
+}
+

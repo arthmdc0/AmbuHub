@@ -1,1 +1,1 @@
-Tela de login, para se cadastrar ou fazer login.
+AmbuHub é um aplicativo que conecta pessoas interessadas em vender à pessoas interessadas em comprar. Nosso aplicativo rastreia a localização dos possíveis clientes a vendedores ambulantes num raio de distância curto, onde o ambulante pode exibir sua cartela de produtos online, e os clientes próximos conseguem sinalizar para que o os dois se encontrem e efetuem o comércio. Além de facilitar um meio de pagamento seguro, o AmbuHub favorece a segurança das pessoas. Empresa: XPTO

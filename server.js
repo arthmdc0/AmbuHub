@@ -87,7 +87,6 @@ app.engine('handlebars', engine({
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
-// Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -136,7 +135,6 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-// Middleware
 function ensureAuthenticated(req, res, next) {
   if (req.session.userId) {
     return next();
@@ -144,7 +142,6 @@ function ensureAuthenticated(req, res, next) {
   res.redirect('/login');
 }
 
-// Middleware
 function checkUserRole(role) {
   return function (req, res, next) {
     if (req.session.userRole === role) {

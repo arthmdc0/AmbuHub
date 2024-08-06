@@ -26,10 +26,10 @@
     </form>
     <button onclick="toggleEditForm({{this.id}})">Editar</button>
     <form action="/edit-product/{{this.id}}" method="post" enctype="multipart/form-data" class="edit-form" id="edit-form-{{this.id}}" style="display:none;">
-      <input type="text" name="name" value="{{this.name}}" required>
-      <textarea name="description" required>{{this.description}}</textarea>
-      <input type="number" name="price" step="0.01" value="{{this.price}}" required>
-      <input type="number" name="stock" value="{{this.stock}}" required>
+      <input type="text" name="name" value="{{this.name}}" placeholder="Nome do Produto" required>
+      <textarea name="description" placeholder="Descrição" required>{{this.description}}</textarea>
+      <input type="number" name="price" step="0.01" value="{{this.price}}" placeholder="Preço" required>
+      <input type="number" name="stock" value="{{this.stock}}" placeholder="Quantidade em Estoque" required>
       <input type="file" name="image">
       <button type="submit">Salvar Alterações</button>
     </form>

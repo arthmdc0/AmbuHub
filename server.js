@@ -11,13 +11,13 @@ const { engine } = require('express-handlebars');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Configurar o Sequelize para conectar ao PostgreSQL
+// conectar ao PostgreSQL (Banco de Dados)
 const sequelize = new Sequelize('ambuhub', 'postgres', '1234', {
   host: 'localhost',
   dialect: 'postgres',
 });
 
-// Testar a conexão com o banco de dados
+// Autenticar
 sequelize.authenticate()
   .then(() => console.log('Conectado ao PostgreSQL'))
   .catch(err => console.error('Não foi possível conectar ao PostgreSQL:', err));
@@ -39,10 +39,10 @@ const User = sequelize.define('User', {
   },
 }, {
   tableName: 'users',
-  timestamps: false, // Desativa timestamps se não necessário
+  timestamps: false,
 });
 
-// Definir modelo de produto
+
 const Product = sequelize.define('Product', {
   name: {
     type: DataTypes.STRING,
@@ -70,13 +70,13 @@ const Product = sequelize.define('Product', {
   }
 }, {
   tableName: 'products',
-  timestamps: false, // Desativa timestamps se não necessário
+  timestamps: false,
 });
 
-// Sincronizar o modelo com o banco de dados
+// Sincronizar
 sequelize.sync();
 
-// Configurar handlebars
+
 app.engine('handlebars', engine({
   extname: '.handlebars',
   runtimeOptions: {
@@ -91,15 +91,15 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Configurar middleware de sessão
+
 app.use(session({
-  secret: 'your-secret-key', // Altere isso para um valor seguro
+  secret: 'your-secret-key',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false } // Para HTTPS, deve ser true
+  cookie: { secure: false }
 }));
 
-// Rota para processar compras
+
 app.post('/buy-product/:id', ensureAuthenticated, async (req, res) => {
   const productId = req.params.id;
   const { quantity, paymentMethod } = req.body;
@@ -114,12 +114,11 @@ app.post('/buy-product/:id', ensureAuthenticated, async (req, res) => {
       return res.status(400).send('Quantidade solicitada não disponível');
     }
 
-    // Lógica para processar a compra
-    // Atualizar o estoque, registrar a venda, etc.
+   
     product.stock -= quantity;
     await product.save();
 
-    // Redirecionar para uma página de sucesso/checkout
+   
     res.send(`Compra realizada com sucesso! Método de pagamento: ${paymentMethod}`);
   } catch (error) {
     console.error(error);
@@ -127,7 +126,6 @@ app.post('/buy-product/:id', ensureAuthenticated, async (req, res) => {
   }
 });
 
-// Configuração do multer para upload de imagens
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, path.join(__dirname, 'public', 'uploads'));
@@ -138,7 +136,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-// Middleware para proteger rotas
+// Middleware
 function ensureAuthenticated(req, res, next) {
   if (req.session.userId) {
     return next();
@@ -146,7 +144,7 @@ function ensureAuthenticated(req, res, next) {
   res.redirect('/login');
 }
 
-// Middleware para verificar a role do usuário
+// Middleware
 function checkUserRole(role) {
   return function (req, res, next) {
     if (req.session.userRole === role) {
@@ -169,7 +167,7 @@ app.get('/signup', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'signup.html'));
 });
 
-// Proteger as rotas de usuário com middleware
+
 app.get('/usuario_padrao', ensureAuthenticated, checkUserRole('usuario_padrão'), async (req, res) => {
   try {
     const products = await Product.findAll();
@@ -324,5 +322,5 @@ app.get('/logout', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(` http://localhost:${PORT}`);
 });

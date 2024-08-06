@@ -1,1 +1,1 @@
-Tela de login, para se cadastrar ou fazer login.
+Tela de login, para se cadastrar ou fazer login, com opção de ser iniciante.
